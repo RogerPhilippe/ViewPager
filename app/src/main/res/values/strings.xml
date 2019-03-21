@@ -3,4 +3,5 @@
     <string name="layout_esquerda">Layout Esquerda</string>
     <string name="layout_meio">Layout Meio</string>
     <string name="layout_direita">Layout Direita</string>
+    <string name="max_rigth_label">Layout Mais a Direita</string>
 </resources>

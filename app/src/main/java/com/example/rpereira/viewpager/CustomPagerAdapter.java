@@ -12,12 +12,14 @@ public class CustomPagerAdapter extends PagerAdapter {
 
     private Context mContext;
 
-    public CustomPagerAdapter(Context context) {
-        mContext = context;
-    }
+    public CustomPagerAdapter(Context context) { mContext = context; }
 
     @Override
     public int getCount() {
+        return ModelObject.values().length == 0 ? 0 : ModelObject.values().length + 2;
+    }
+
+    public int getRealCount() {
         return ModelObject.values().length;
     }
 
@@ -29,12 +31,25 @@ public class CustomPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        ModelObject modelObject = ModelObject.values()[position];
+        int modelPosition = mapPagerPositionToModelPosition(position);
+        ModelObject modelObject = ModelObject.values()[modelPosition];
         LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewGroup layout = (ViewGroup) inflater.inflate(modelObject.getLayoutResId(), container ,
                 false);
         container.addView(layout);
         return layout;
+    }
+
+    private int mapPagerPositionToModelPosition(int pagerPosition) {
+        // Put last page model to the first position.
+        if (pagerPosition == 0) {
+            return getRealCount() - 1;
+        }
+        // Put first page model to the last position.
+        if (pagerPosition == getRealCount() + 1) {
+            return 0;
+        }
+        return pagerPosition - 1;
     }
 
     @Override
